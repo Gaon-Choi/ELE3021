@@ -14,23 +14,27 @@ int main(void)
 
 	printf("Waiting for Child Processes.\n");
 
+	// make a child process : child1
 	pid1 = fork();
-
 	if (pid1 == 0) {
+		// child1: execute "child_1"
 		execl("./child_1", "", (char *)NULL);
 		exit(0);
 	}
 
+	// make a child process : child2
 	pid2 = fork();
 	if (pid2 == 0) {
+		// child2: execute "child_2"
 		execl("./child_2", "", (char *)NULL);
-		waitpid(pid1, &state, 0);
+		waitpid(pid1, &state, 0);	// wait until the termination of child1 process
 		exit(0);
 	}
 
+	// parent process : assignment2
 	if (pid1 != 0 && pid2 != 0) {
-		waitpid(pid1, &state, 0);
-		waitpid(pid2, &state, 0);
+		waitpid(pid1, &state, 0);	// wait until the termination of child1 process
+		waitpid(pid2, &state, 0);	// wait until the termination of child2 process
 		printf("Child processes are exit (%d) (%d)\n", (pid1 == 0), (pid2 == 0));
 	}
 	return 0;
