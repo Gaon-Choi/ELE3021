@@ -17,7 +17,7 @@ PROCESS A : READER\n\
 }
 
 void program_end() {
-    printf("---------------------[ THE END ]----------------------\n");
+    printf("\n\n---------------------[ THE END ]----------------------\n");
 }
 
 typedef struct message {
@@ -26,6 +26,7 @@ typedef struct message {
 }message;
 
 int main() {
+    program_start();
     int shmid;
     void *shmaddr;
     int ret;
@@ -51,9 +52,9 @@ int main() {
     while(1) {
             if(Message->valid) {
             Message->valid = 0;
-            printf("Message #%d : %s", num, Message->msg);
             if(strcmp(Message->msg, "QUIT\n") == 0)
                 break;
+            printf("Message #%d : %s\n", num, Message->msg);
             num += 1;
         }
     }
@@ -72,5 +73,6 @@ int main() {
         return 0;
     }
 
+    program_end();
     return 0;
 }

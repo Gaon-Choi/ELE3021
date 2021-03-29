@@ -26,6 +26,8 @@ typedef struct message {
 }message;
 
 int main() {
+    program_start();
+
     int shmid;
     int num = 1;  // the number of messages
     void *shmaddr;
@@ -65,6 +67,8 @@ int main() {
         perror("detach failed\n");
         return 0;
     }
-
+    
+    program_end();
+    
     return 0;
 }
