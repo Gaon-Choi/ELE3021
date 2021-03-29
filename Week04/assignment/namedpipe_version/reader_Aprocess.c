@@ -27,8 +27,8 @@ int main() {
     program_start();
 
     int ret;
-    char msg[MSG_SIZE];
-    int fd;
+    char msg[MSG_SIZE]; // the text
+    int fd;     // file descriptor
     pid_t pid;
 
 
@@ -54,15 +54,18 @@ int main() {
 
     int i = 1;
     while(1) {
+        // read message from fd
         ret = read(fd, msg, sizeof(msg));
         if(ret < 0) {
             printf("Read failed\n");
             return 0;
         }
         if(strcmp(msg, "QUIT\n") == 0)
+            // Program Exit -> "QUIT"
             break;
+        // print the contents of messsage
         printf("Message #%d : %s\n", i, msg);
-        i += 1;
+        i += 1; // increment number of given messages
     }
 
     program_end();

@@ -22,7 +22,7 @@ void program_end() {
 
 typedef struct message {
     int valid;  // if valid, 1(true)
-    char msg[MSG_SIZE];
+    char msg[MSG_SIZE]; // contents of message
 }message;
 
 int main() {
@@ -32,7 +32,7 @@ int main() {
     int ret;
 
     int num = 1;    // the number of messages
-    message *Message;
+    message *Message;   // message struct
 
     // get shared memory id
     shmid = shmget((key_t)1234, 1024, IPC_CREAT | 0666);
@@ -51,11 +51,12 @@ int main() {
     Message = (message*)shmaddr;
     while(1) {
             if(Message->valid) {
-            Message->valid = 0;
+            Message->valid = 0; // state: message received
             if(strcmp(Message->msg, "QUIT\n") == 0)
+                // Program Exit -> "QUIT"
                 break;
             printf("Message #%d : %s\n", num, Message->msg);
-            num += 1;
+            num += 1;   // increment number of given messages
         }
     }
 

@@ -30,10 +30,10 @@ int main() {
 
     int shmid;
     int num = 1;  // the number of messages
-    void *shmaddr;
+    void *shmaddr;  // pointer to shared memory
     int ret;
-    char msg_temp[MSG_SIZE];
-    message *Message;
+    char msg_temp[MSG_SIZE];    // contents of message
+    message *Message;   // message struct
 
     // make a shared memory
     shmid = shmget((key_t)1234, 1024, IPC_CREAT | 0666);
@@ -52,13 +52,15 @@ int main() {
     Message = (message*)shmaddr;
     while(1) {
         printf("Message #%d : ", num);
+        // get contents of message from console
         fgets(msg_temp, MSG_SIZE, stdin);
         strcpy(Message->msg, msg_temp);
-        Message->valid = 1;
+        Message->valid = 1; // state: message send
         printf("Sending finished.\n");
-        num++; 
+        num++; // increment number of sent messages
         
         if(strcmp(Message->msg, "QUIT\n") == 0)
+            // Program Exit -> "QUIT"
             break;
     }
     // detach the shared memory

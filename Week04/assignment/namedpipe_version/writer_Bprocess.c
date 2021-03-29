@@ -25,9 +25,9 @@ void program_end() {
 int main() {
     program_start();
 
-    char msg[MSG_SIZE];
-    char msg_2[MSG_SIZE];
-    int fd;
+    char msg[MSG_SIZE];     // the text
+    char msg_2[MSG_SIZE];   // the temp text
+    int fd;     // file descriptor
     int ret, i;
 
     // open the named pipe
@@ -38,14 +38,17 @@ int main() {
     }
 
     while(1) {
-        fgets(msg_2, sizeof(msg_2), stdin);
-        snprintf(msg, sizeof(msg), "%s",  msg_2);
+        fgets(msg_2, sizeof(msg_2), stdin); // get messages from console
+        snprintf(msg, sizeof(msg), "%s",  msg_2);   // write formatted output to sized buffer
+        
+        // write message to fd
         ret = write(fd, msg, sizeof(msg));
         if(ret < 0) {
             printf("Write failed\n");
             return 0;
         }
         if(strcmp(msg, "QUIT\n") == 0)
+            // Program Exit -> "QUIT"
             break;
     }
 

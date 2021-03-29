@@ -36,7 +36,7 @@ int main(void) {
     // key of message queue : 1234
     key_id = msgget((key_t)1234, IPC_CREAT|0666);
     
-    char str[MSG_SIZE]; // the text to be sent
+    char str[MSG_SIZE]; // the text
     int num = 1;        // the number of sent messages
     
     if(key_id == -1) {
@@ -50,12 +50,18 @@ int main(void) {
         fgets(str, sizeof(str), stdin); // get messages from console
         strcpy(sndbuf.mtext, str);
         
+        /*
+            int msgid: Message Queue id
+            const void *msgp: the address of Message struct
+            size_t msgsz: the size of Message struct
+            int msgflg: option
+        */
         if(msgsnd(key_id, (void*)&sndbuf, sizeof(struct msgbuf), IPC_NOWAIT) == -1) {
             perror("msgsnd error : ");
         }
 
         printf("Sending finished.\n");
-        num += 1;
+        num += 1;   // increment number of sent messages
         
         if(strcmp(str, "QUIT\n") == 0) {
             // Program Exit -> "QUIT"
