@@ -9,8 +9,8 @@
 #define MSG_SIZE 80
 
 struct msgbuf {
-    long msgtype;
-    char mtext[MSG_SIZE];
+    long msgtype;   // type variable
+    char mtext[MSG_SIZE];   // content of message
 };
 
 void program_start() {

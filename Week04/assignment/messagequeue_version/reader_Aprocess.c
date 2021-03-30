@@ -9,7 +9,7 @@
 #define MSG_SIZE 80
 
 typedef struct msgbuf {
-    long msgtype;   //
+    long msgtype;   // type variable
     char mtext[MSG_SIZE];   // contents of message
 }msgbuf;
 
