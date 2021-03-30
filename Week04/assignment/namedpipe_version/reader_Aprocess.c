@@ -31,6 +31,7 @@ int main() {
     int fd;     // file descriptor
     pid_t pid;
 
+    int num = 1;    // the number of given messages
 
     // delete if named pipe exists
     ret = access(PIPENAME, F_OK);
@@ -52,7 +53,6 @@ int main() {
         return 0;
     }
 
-    int i = 1;
     while(1) {
         // read message from fd
         ret = read(fd, msg, sizeof(msg));
@@ -64,8 +64,8 @@ int main() {
             // Program Exit -> "QUIT"
             break;
         // print the contents of messsage
-        printf("Message #%d : %s\n", i, msg);
-        i += 1; // increment number of given messages
+        printf("Message #%d : %s\n", num, msg);
+        num += 1; // increment number of given messages
     }
 
     program_end();

@@ -28,7 +28,9 @@ int main() {
     char msg[MSG_SIZE];     // the text
     char msg_2[MSG_SIZE];   // the temp text
     int fd;     // file descriptor
-    int ret, i;
+    int ret;
+
+    int num = 1;    // the number of sent messages
 
     // open the named pipe
     fd = open(PIPENAME, O_WRONLY);
@@ -38,11 +40,15 @@ int main() {
     }
 
     while(1) {
+        printf("Message #%d : ", num);
         fgets(msg_2, sizeof(msg_2), stdin); // get messages from console
         snprintf(msg, sizeof(msg), "%s",  msg_2);   // write formatted output to sized buffer
         
         // write message to fd
         ret = write(fd, msg, sizeof(msg));
+        printf("Sending finished.\n");
+        num += 1;   // increment number of messages
+        
         if(ret < 0) {
             printf("Write failed\n");
             return 0;
