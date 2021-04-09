@@ -87,5 +87,11 @@ int main(void)
         return 0;
     }
 
+	// remove the shared memory
+	ret = shmctl(shmid, IPC_RMID, 0);
+	if(ret == -1) {
+		perror("remove failed\n");
+		return 0;
+	}
 	return 0;
 }
