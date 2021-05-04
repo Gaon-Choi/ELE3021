@@ -12,8 +12,9 @@
 #include <stdio.h>
 #include <semaphore.h>
 #include <pthread.h>
+#include <unistd.h>
 
-#define COUNTING_NUMBER 1000000
+#define COUNTING_NUMBER 1000
 
 #define WRITER_NUM 5
 #define READER_NUM 2
@@ -24,19 +25,19 @@ void reader();
 sem_t S;
 sem_t wrt;
 
-int cur_writer = 0;
-int cur_count = 0;
-int readcount = 0;
+int cur_writer = 0; // most recent writer
+int cur_count = 0;  // access count
+int readcount = 0;  // readcount
 int writer_access_count[WRITER_NUM];
 
 void writer(void *n) {
     int i;
-    for(i = 0; i < COUNTING_NUMBER; i++) {
+    for(i = 0; i < COUNTING_NUMBER; ++i) {
         usleep(100000);
         // lock
         sem_wait(&wrt);
 
-        cur_writer *= *((int*)n);
+        cur_writer = *((int*)n);
         cur_count = writer_access_count[cur_writer]++;
         cur_count %= 100;
 
